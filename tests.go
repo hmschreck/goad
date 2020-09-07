@@ -34,8 +34,8 @@ var testCooldown = parser.Float("", "cooldown", &argparse.Options{
 })
 
 func ValidateCooldown(args []string) (err error) {
-	if len(args) > 1 {
-		return errors.New("too many arguments for cooldown")
+	if len(args) > 1 || len(args) == 0 {
+		return errors.New("incorrect arguments for cooldown")
 	}
 	if cooldown, err := strconv.ParseFloat(args[0], 64); cooldown <= 0 || err != nil {
 		return errors.New("could not parse cooldown period")
