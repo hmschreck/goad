@@ -57,10 +57,14 @@ type Test struct {
 
 func (t *Test) Run() {
 	log.Debugf("starting test with %d concurrent requests", t.TestCount)
+	readyChan := make(chan bool)
 	startChan := make(chan bool)
 	doneChan := make(chan TestResult)
 	for test := 0; test < t.TestCount; test++ {
-		go MakeRequest(startChan, doneChan)
+		go MakeRequest(readyChan, startChan, doneChan)
+	}
+	for test := 0; test < t.TestCount; test++ {
+		<- readyChan
 	}
 	for test := 0; test < t.TestCount; test++ {
 		startChan <- true

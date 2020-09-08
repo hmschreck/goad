@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func MakeRequest(startChan chan bool, doneChan chan TestResult) (err error) {
+func MakeRequest(readyChan chan bool, startChan chan bool, doneChan chan TestResult) (err error) {
 	result := TestResult{}
 	defer func() {
 		doneChan <- result
@@ -23,6 +23,7 @@ func MakeRequest(startChan chan bool, doneChan chan TestResult) (err error) {
 		req.Header.Add(strings.TrimSpace(headerSplit[0]),
 			strings.TrimSpace(headerSplit[1]))
 	}
+	readyChan <- true
 	// wait for the synchronized start message
 	_ = <-startChan
 	result.Start = time.Now()
