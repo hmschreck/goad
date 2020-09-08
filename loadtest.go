@@ -24,7 +24,7 @@ func MakeRequest(startChan chan bool, doneChan chan TestResult) (err error) {
 			strings.TrimSpace(headerSplit[1]))
 	}
 	// wait for the synchronized start message
-	_ = <- startChan
+	_ = <-startChan
 	result.Start = time.Now()
 	resp, err := client.Do(req)
 	result.End = time.Now()

@@ -13,7 +13,7 @@ var requestUrlString *string = parser.String("", "url", &argparse.Options{
 })
 
 func ValidateURL(args []string) (err error) {
-	if len(args) > 1 {
+	if len(args) > 1 || len(args) == 0 {
 		return errors.New("too many args for request URL")
 	}
 	_, err = url.Parse(args[0])

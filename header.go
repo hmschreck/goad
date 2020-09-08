@@ -7,4 +7,3 @@ var requestHeaders *[]string = parser.StringList("H", "header", &argparse.Option
 	Help:     "headers to attach to the HTTP request",
 	Default:  nil,
 })
-

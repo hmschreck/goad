@@ -7,26 +7,26 @@ import (
 )
 
 type TestSuite struct {
-	Start time.Time `json:"start_time"`
-	End time.Time `json:"end_time"`
+	Start    time.Time     `json:"start_time"`
+	End      time.Time     `json:"end_time"`
 	Duration time.Duration `json:"duration"`
-	Steps []int `json:"steps"`
+	Steps    []int         `json:"steps"`
 	Cooldown time.Duration `json:"cooldown"`
-	Repeats int `json:"repeats"`
-	URL string `json:"url"`
-	Args []string `json:"args"`
-	Tests []TestRepeat `json:"tests"`
+	Repeats  int           `json:"repeats"`
+	URL      string        `json:"url"`
+	Args     []string      `json:"args"`
+	Tests    []TestRepeat  `json:"tests"`
 }
 
 func (ts *TestSuite) RunTests() {
-	for runs := 0; runs < ts.Repeats; runs ++ {
+	for runs := 0; runs < ts.Repeats; runs++ {
 		repeat := TestRepeat{}
 		repeat.Tests = []Test{}
 		for _, step := range ts.Steps {
 			test := Test{
-				Start: time.Now(),
+				Start:     time.Now(),
 				TestCount: step,
-				Results: []TestResult{},
+				Results:   []TestResult{},
 			}
 			test.Run()
 			test.End = time.Now()
@@ -44,15 +44,15 @@ type TestRepeat struct {
 }
 
 type Test struct {
-	Start time.Time `json:"start_time"`
-	End time.Time `json:"end_time"`
-	Duration time.Duration `json:"duration"`
-	TestCount int `json:"count"`
-	Minimum time.Duration `json:"minimum"`
-	Maximum time.Duration `json:"maximum"`
-	StdDev float64 `json:"std_dev"`
-	Average float64 `json:"average"`
-	Results []TestResult `json:"results"`
+	Start     time.Time     `json:"start_time"`
+	End       time.Time     `json:"end_time"`
+	Duration  time.Duration `json:"duration"`
+	TestCount int           `json:"count"`
+	Minimum   time.Duration `json:"minimum"`
+	Maximum   time.Duration `json:"maximum"`
+	StdDev    float64       `json:"std_dev"`
+	Average   float64       `json:"average"`
+	Results   []TestResult  `json:"results"`
 }
 
 func (t *Test) Run() {
@@ -67,7 +67,7 @@ func (t *Test) Run() {
 	}
 	results := []TestResult{}
 	for test := 0; test < t.TestCount; test++ {
-		result := <- doneChan
+		result := <-doneChan
 		results = append(results, result)
 	}
 	log.Debugf("%+v", results)
@@ -132,7 +132,7 @@ func (t Test) GetStdDev() (stddev float64) {
 	}
 	var sumOfDiffs float64 = 0
 	for _, result := range t.Results {
-		sumOfDiffs += math.Pow(float64(result.Duration) - average, 2)
+		sumOfDiffs += math.Pow(float64(result.Duration)-average, 2)
 	}
 	variance := sumOfDiffs / float64(len(t.Results))
 	stddev = math.Sqrt(variance)

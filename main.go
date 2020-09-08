@@ -18,15 +18,15 @@ func main() {
 	}
 	testCooldownSeconds := time.Duration(*testCooldown) * time.Second
 	suite := TestSuite{
-		Start: time.Now(),
-		Steps: *testSteps,
+		Start:    time.Now(),
+		Steps:    *testSteps,
 		Cooldown: testCooldownSeconds,
-		Repeats: *testRepeats,
-		URL: *requestUrlString,
-		Args: os.Args,
-		Tests: []TestRepeat{},
+		Repeats:  *testRepeats,
+		URL:      *requestUrlString,
+		Args:     os.Args,
+		Tests:    []TestRepeat{},
 	}
-	suite.RunTests();
+	suite.RunTests()
 	suiteJSON, err := json.Marshal(suite)
 	fmt.Printf("%+s", suiteJSON)
 }

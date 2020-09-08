@@ -8,9 +8,9 @@ import (
 
 var testSteps *[]int = parser.IntList("", "steps", &argparse.Options{
 	Required: false,
-	Help: "steps for concurrent tests",
+	Help:     "steps for concurrent tests",
 	Validate: ValidateSteps,
-	Default: []int{1, 2, 4, 8, 16},
+	Default:  []int{1, 2, 4, 8, 16},
 })
 
 func ValidateSteps(args []string) (err error) {
@@ -28,9 +28,9 @@ func ValidateSteps(args []string) (err error) {
 
 var testCooldown = parser.Float("", "cooldown", &argparse.Options{
 	Required: false,
-	Help: "cooldown between test runs",
+	Help:     "cooldown between test runs",
 	Validate: ValidateCooldown,
-	Default: 3.0,
+	Default:  3.0,
 })
 
 func ValidateCooldown(args []string) (err error) {
@@ -45,13 +45,13 @@ func ValidateCooldown(args []string) (err error) {
 
 var testRepeats = parser.Int("", "repeats", &argparse.Options{
 	Required: false,
-	Help: "number of times to repeat the full suite (all steps)",
+	Help:     "number of times to repeat the full suite (all steps)",
 	Validate: ValidateRepeats,
-	Default: 1,
+	Default:  1,
 })
 
 func ValidateRepeats(args []string) (err error) {
-	if len(args) > 1 {
+	if len(args) > 1 || len(args) == 0 {
 		return errors.New("too many arguments for repeats")
 	}
 	if repeats, err := strconv.Atoi(args[0]); err != nil || repeats < 1 {
