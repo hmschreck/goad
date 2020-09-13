@@ -30,6 +30,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("could no parse Git: %v", err)
 	}
+	err = ParseBody()
+	if err != nil {
+		log.Fatalf("could not parse request body")
+	}
 	suite.RunTests()
 	suiteJSON, err := json.Marshal(suite)
 	fmt.Printf("%+s", suiteJSON)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"net/http"
 	"strings"
 	"time"
@@ -12,7 +13,7 @@ func MakeRequest(readyChan chan bool, startChan chan bool, doneChan chan TestRes
 		doneChan <- result
 	}()
 	client := http.Client{}
-	body := strings.NewReader(*requestData)
+	body := bytes.NewReader(requestPayload)
 	req, err := http.NewRequest(*requestType, *requestUrlString, body)
 	if err != nil {
 		err = err
