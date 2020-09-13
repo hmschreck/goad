@@ -16,6 +16,7 @@ type TestSuite struct {
 	URL      string        `json:"url"`
 	Args     []string      `json:"args"`
 	Tests    []TestRepeat  `json:"tests"`
+	Commit   string        `json:"commit,omitempty"`
 }
 
 func (ts *TestSuite) RunTests() {
@@ -64,7 +65,7 @@ func (t *Test) Run() {
 		go MakeRequest(readyChan, startChan, doneChan)
 	}
 	for test := 0; test < t.TestCount; test++ {
-		<- readyChan
+		<-readyChan
 	}
 	for test := 0; test < t.TestCount; test++ {
 		startChan <- true

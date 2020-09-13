@@ -26,6 +26,10 @@ func main() {
 		Args:     os.Args,
 		Tests:    []TestRepeat{},
 	}
+	suite.Commit, err = ParseGit()
+	if err != nil {
+		log.Fatalf("could no parse Git: %v", err)
+	}
 	suite.RunTests()
 	suiteJSON, err := json.Marshal(suite)
 	fmt.Printf("%+s", suiteJSON)
